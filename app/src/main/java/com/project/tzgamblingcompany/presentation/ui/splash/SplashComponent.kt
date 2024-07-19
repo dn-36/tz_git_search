@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,14 +45,13 @@ fun SplashComponent() {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                painter = painterResource(id = R.drawable.githubicon),
                 contentDescription = "App Logo",
                 modifier = Modifier.size(100.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary.copy(alpha = alpha))
             )
             Spacer(modifier = Modifier.height(16.dp))
             androidx.compose.material3.Text(
-                text = "MyApp",
+                text = "TZ Pankov",
                 fontSize = 24.sp,
                 color = MaterialTheme.colorScheme.primary.copy(alpha = alpha)
             )

@@ -1,7 +1,6 @@
-package com.project.tzgamblingcompany.data.model
+package com.project.tzgamblingcompany.domain.model
 
-
-data class User(
+data class UserDomain(
     val login: String?,
     val id: Int?,
     val avatar_url: String?,

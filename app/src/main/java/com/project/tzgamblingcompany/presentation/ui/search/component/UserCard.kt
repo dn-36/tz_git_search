@@ -23,10 +23,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.project.tzgamblingcompany.R
-import com.project.tzgamblingcompany.data.model.User
+import com.project.tzgamblingcompany.data.model.UserData
+import com.project.tzgamblingcompany.domain.model.UserDomain
 
 @Composable
-fun UserCard(user: User,click:() -> Unit) {
+fun UserCard(user: UserDomain, click: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(16.dp)
@@ -60,7 +61,7 @@ fun UserCard(user: User,click:() -> Unit) {
                 .align(Alignment.CenterVertically)
         ) {
             Text(
-                text = user.login?:"",
+                text = user.login ?: "",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )

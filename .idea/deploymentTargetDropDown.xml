@@ -2,21 +2,14 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="PreviewFileList">
+        <State />
+      </entry>
+      <entry key="PreviewRepositoryScreen">
+        <State />
+      </entry>
       <entry key="app">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="$USER_HOME$/.android/avd/Small_Phone_API_UpsideDownCakePrivacySandbox.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-07-17T06:28:19.820291Z" />
-        </State>
+        <State />
       </entry>
     </value>
   </component>

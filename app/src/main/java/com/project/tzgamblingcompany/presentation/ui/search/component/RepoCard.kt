@@ -16,12 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import com.project.tzgamblingcompany.data.model.Repository
+import com.project.tzgamblingcompany.domain.model.RepositoryDomain
 
 
 @Composable
-fun RepositoryCard(repository: Repository , onRepoClick: () -> Unit) {
+fun RepositoryCard(repository: RepositoryDomain, onRepoClick: () -> Unit) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -30,17 +29,20 @@ fun RepositoryCard(repository: Repository , onRepoClick: () -> Unit) {
             .clickable { onRepoClick() }
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = repository.name?:"", style = MaterialTheme.typography.titleLarge)
-            Text(text = "Forks: ${repository.forks_count}", style = MaterialTheme.typography.bodyMedium)
+            Text(text = repository.name ?: "", style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = "Forks: ${repository.forks_count}",
+                style = MaterialTheme.typography.bodyMedium
+            )
             (repository.description).let {
-                Text(text = it?:"", style = MaterialTheme.typography.bodySmall)
+                Text(text = it ?: "", style = MaterialTheme.typography.bodySmall)
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "View on GitHub",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { openUrl(context, repository.html_url?:"") }
+                modifier = Modifier.clickable { openUrl(context, repository.html_url ?: "") }
             )
         }
     }

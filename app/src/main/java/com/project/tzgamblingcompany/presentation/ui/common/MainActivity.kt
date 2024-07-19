@@ -10,6 +10,9 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.project.tzgamblingcompany.presentation.ui.common.navigation.AppNavHost
+import com.project.tzgamblingcompany.presentation.ui.deteilrepo.RepositoryDeteilScreen
+
 class MainActivity : ComponentActivity() {
     companion object {
         lateinit var context: Activity
@@ -19,27 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         context = this
         setContent {
-            Navigation()
-          Log.d("kjk",getWebBrowserApps(this).toString())
+          AppNavHost()
         }
     }
 
-
-    fun getWebBrowserApps(context: Context): List<String> {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = android.net.Uri.parse("http://")
-        }
-
-        val packageManager: PackageManager = context.packageManager
-        val resolveInfoList: List<ResolveInfo> =
-            packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-
-        return resolveInfoList.map { resolveInfo ->
-            val packageName = resolveInfo.activityInfo.packageName
-            val appLabel =
-                packageManager.getApplicationLabel(resolveInfo.activityInfo.applicationInfo)
-                    .toString()
-            "$appLabel ($packageName)"
-        }
-    }
 }

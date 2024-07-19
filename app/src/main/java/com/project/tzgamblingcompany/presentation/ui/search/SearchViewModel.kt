@@ -1,54 +1,48 @@
 package com.project.tzgamblingcompany.presentation.ui.search
 
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.project.tzgamblingcompany.domain.usecase.SearchResult
+import androidx.navigation.NavController
 import com.project.tzgamblingcompany.domain.usecase.SearchUseCase
 import com.project.tzgamblingcompany.presentation.ui.common.MainActivity
+import com.project.tzgamblingcompany.presentation.ui.common.navigation.Screen
+import com.project.tzgamblingcompany.presentation.ui.search.viewmodel.SearchIntent
+import com.project.tzgamblingcompany.presentation.ui.search.viewmodel.SearchViewState
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
 
-// SearchViewState.kt
-sealed class SearchViewState {
-    object Loading : SearchViewState()
-    data class Success(val results: List<SearchResult>) : SearchViewState()
-    data class Error(val message: String) : SearchViewState()
-}
-
-// SearchIntent.kt
-sealed class SearchIntent {
-    data class SearchInfo(val query: String) : SearchIntent()
-    object RetrySearchInfo : SearchIntent()
-    data class ShowWebViewProfile(val url:String): SearchIntent()
-}
-
-// SearchViewModel.kt
 class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
-    private val _state = MutableStateFlow<SearchViewState>(SearchViewState.Loading)
+    private var savedQery = ""
+    private val _state = MutableStateFlow<SearchViewState>(SearchViewState.Empty)
     val state: StateFlow<SearchViewState> get() = _state.asStateFlow()
 
     fun processIntent(intent: SearchIntent) {
         when (intent) {
             is SearchIntent.SearchInfo -> search(intent.query)
-            is SearchIntent.RetrySearchInfo -> retry()
-            is SearchIntent.ShowWebViewProfile -> openUrlInBrowser(
-                intent.url
+            is SearchIntent.RetrySearchInfo -> retry(savedQery)
+            is SearchIntent.ShowWebViewProfile -> openUrlInBrowser(intent.url)
+            is SearchIntent.ShowRepoDeteil -> showRepoDeteil(
+                intent.navController, intent.repoName, intent.repoUrl
             )
 
         }
     }
 
+    private fun showRepoDeteil(navController: NavController, repoName: String, repoUrl: String) {
+        navController.navigate(
+            "${Screen.DeteilRepo.route}/${repoName}/" +
+                    "${extractUsername(repoUrl)}"
+        )
+    }
+
     private fun search(query: String) {
+        savedQery = query
         viewModelScope.launch {
             _state.value = SearchViewState.Loading
             try {
@@ -60,14 +54,21 @@ class SearchViewModel(private val searchUseCase: SearchUseCase) : ViewModel() {
         }
     }
 
-    private fun retry() {
-
+    private fun retry(query: String) {
+        search(query)
     }
 }
 
-// ViewModelModule.kt
-val viewModelModule = module {
-    viewModel { SearchViewModel(get()) }
+private fun extractUsername(url: String): String {
+    val prefix = "https://github.com/"
+    if (!url.startsWith(prefix)) {
+        return ""
+    }
+
+    val withoutPrefix = url.removePrefix(prefix)
+
+    val username = withoutPrefix.substringBefore('/')
+    return username
 }
 
 private fun openUrlInBrowser(url: String) {

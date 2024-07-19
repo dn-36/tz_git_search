@@ -1,10 +1,12 @@
 package com.project.tzgamblingcompany.presentation.ui.common
 
 import android.app.Application
-import com.project.tzgamblingcompany.data.network.networkModule
-import com.project.tzgamblingcompany.data.repository.repositoryModule
+
+import com.project.tzgamblingcompany.di.appModule
+import com.project.tzgamblingcompany.di.networkModule
+import com.project.tzgamblingcompany.di.repositoryModule
+import com.project.tzgamblingcompany.di.viewModelModule
 import com.project.tzgamblingcompany.domain.usecase.useCaseModule
-import com.project.tzgamblingcompany.presentation.ui.search.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -14,7 +16,8 @@ class MyApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MyApp)
-            modules(listOf(networkModule, repositoryModule, useCaseModule, viewModelModule))
+            modules(listOf(networkModule, appModule ,
+                repositoryModule, useCaseModule, viewModelModule))
         }
     }
 }
